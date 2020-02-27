@@ -13,10 +13,22 @@
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" class="form-control" v-model="form.username"/>
+            <div class="field-error" v-if="$v.form.username.$dirty">
+              <div class="error" v-if="!$v.form.username.required">Username is required</div>
+              <div class="error" v-if="!$v.form.username.alphaNum">Username can only contain letters and numbers</div>
+              <div class="error" v-if="!$v.form.username.minLength">Username must have at least {{$v.form.username.$params.minLength.min}} letters.</div>
+              <div class="error" v-if="!$v.form.username.maxLength">Username is too long. It can contains maximium {{$v.form.username.$params.maxLength.max}} letters.</div>
+            </div>
           </div>
           <div class="form-group">
             <label for="emailAddress">Email Address</label>
             <input type="text" id="emailAddress" class="form-control" v-model="form.emailAddress"/>
+            <div class="field-error" v-if="$v.form.emailAddress.$dirty">
+              <div class="error" v-if="!$v.form.emailAddress.required">Email address is required</div>
+              <div class="error" v-if="!$v.form.emailAddress.email">This is not a valid email address</div>
+              <div class="error" v-if="!$v.form.emailAddress.maxLength">Email address is too long. It can contains maximium {{$v.form.emailAddress.$params.maxLength.max}} letters.</div>
+            </div>
+
           </div>
           <div class="form-group">
             <label for="password">Password</label>
@@ -80,8 +92,6 @@ export default {
     submitForm () {
       this.$v.$touch()
       if (this.$v.$invalid) {
-        console.log('Invalid!')
-        console.log(this.form)
         return
       }
       registrationService.register(this.form).then(() => {

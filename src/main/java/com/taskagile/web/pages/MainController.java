@@ -1,4 +1,4 @@
-package com.taskagile.app.web.pages;
+package com.taskagile.web.pages;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.MediaType;

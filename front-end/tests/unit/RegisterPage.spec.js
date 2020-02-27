@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { mount, createLocalVue } from '@vue/test-utils'
 import RegisterPage from '@/views/RegisterPage'
 import VueRouter from 'vue-router'
@@ -17,7 +16,7 @@ jest.mock('@/services/registration')
 
 describe('RegisterPage.vue', () => {
   it('should render correct content', () => {
-    const Constructor = Vue.extend(RegisterPage)
+    const Constructor = localVue.extend(RegisterPage)
     const vm = new Constructor().$mount()
     expect(vm.$el.querySelector('.logo').getAttribute('src'))
       .toEqual('/static/images/logo.png')
@@ -100,7 +99,7 @@ describe('RegisterPage.vue using test-utils', () => {
     wrapper.vm.form.emailAddress = 'sunny@local.com'
     wrapper.vm.form.password = 'JestRocks!'
     wrapper.vm.submitForm() // in the implementation the router should navigate to "Login"
-    expect(registerSpy).toBeCalled()
+    expect(registerSpy).toHaveBeenCalled()
     await wrapper.vm.$nextTick()
     expect(stub).toHaveBeenCalledWith({ name: 'LoginPage' })
   })
@@ -113,7 +112,7 @@ describe('RegisterPage.vue using test-utils', () => {
     wrapper.vm.form.password = 'TedsFat!'
     expect(wrapper.find('.failed').isVisible()).toBe(false)
     wrapper.vm.submitForm()
-    expect(registerSpy).toBeCalled()
+    expect(registerSpy).toHaveBeenCalled()
     await wrapper.vm.$nextTick()
     expect(wrapper.find('.failed').isVisible()).toBe(true)
   })
